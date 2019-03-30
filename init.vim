@@ -80,7 +80,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Set the directory you started in as the root for ctrlp
 let g:ctrlp_working_path_mode = 0
 
-command Rc e ~/.vimrc
+command Rc e $MYVIMRC
 
 " Simplifies split navigation
 nnoremap <C-J> <C-W><C-J>
