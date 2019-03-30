@@ -6,9 +6,6 @@ set expandtab
 set shiftwidth=2
 set hidden
 
-" Stops netrw tree from opening
-let loaded_netrwPlugin = 1
-
 "Editing and refreshing config file shortcuts
 command Rc e $MYVIMRC
 command Freshrc so $MYVIMRC
@@ -40,7 +37,6 @@ inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
 " CtrlP >>>>>>>>>>>>>>>>>>>>> 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 
@@ -59,29 +55,6 @@ command! Files CtrlP
 
 " Fzf >>>>>>>>>>>>>>>>>>> 
 set rtp+=/usr/local/opt/fzf
-" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-" Coc >>>>>>>>>>>>>>>>>>>>>>>> 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-nmap <silent> gy <Plug>(coc-type-definition)
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -109,21 +82,33 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+" Deoplete >>>>>>>>>>>>>>>>>>>
+let g:deoplete#enable_at_startup = 1
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" Racer >>>>>>>>>>>>>>>>>>>>>
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+let g:racer_cmd = "/Users/remyoudemans/.cargo/bin/racer"
 " Plugins >>>>>>>>>>>>>>>>>
 call plug#begin('~/.vim/plugged')
+" General-purpose plugins
 Plug 'scrooloose/nerdcommenter'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'pangloss/vim-javascript'
-Plug 'jason0x43/vim-js-indent'
-Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
 Plug 'w0rp/ale'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'vim-airline/vim-airline'
 Plug 'simeji/winresizer'
+
+" Language-specific plugins
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 " <<<<<<<<<<<<<<<<<<<<<<<<
