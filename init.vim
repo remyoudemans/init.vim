@@ -1,6 +1,7 @@
 " Top-level setup >>>>>>>>>>>>>>
 syntax on
 set number
+set relativenumber
 colorscheme PaperColor 
 set expandtab
 set shiftwidth=2
@@ -18,10 +19,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
-" Simplifies buffer navigation
-nnoremap <C-]> :bn<CR>
-nnoremap <C-[> :bp<CR>
 
 " Simplifies exiting terminal mode
 tnoremap <C-\> <C-\><C-N>
@@ -109,14 +106,18 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Plugins >>>>>>>>>>>>>>>>>
 call plug#begin('~/.vim/plugged')
 " General-purpose plugins
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'w0rp/ale'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'w0rp/ale'
 Plug 'simeji/winresizer'
-
 " Language-specific plugins
 Plug 'pangloss/vim-javascript'
 Plug 'jason0x43/vim-js-indent'
