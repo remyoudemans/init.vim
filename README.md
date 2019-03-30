@@ -7,4 +7,5 @@ The plan is that I will maintain multiple branches of this folder for different 
 
 ## Configurations by language
 
-see https://github.com/remyoudemans/init.vim/branches
+* [Javascript/Typescript](https://github.com/remyoudemans/init.vim/blob/javascript/typescript/init.vim)
+* [Rust](https://github.com/remyoudemans/init.vim/blob/rust/init.vim)
