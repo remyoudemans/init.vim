@@ -1,28 +1,72 @@
+" Top-level setup >>>>>>>>>>>>>>
 syntax on
-colorscheme PaperColor 
 set number
+colorscheme PaperColor 
 set expandtab
 set shiftwidth=2
-autocmd StdinReadPre * let s:std_in=1
+set hidden
 
-set statusline+=%#warningmsg#
-set statusline+=%*
+" Stops netrw tree from opening
+let loaded_netrwPlugin = 1
 
+"Editing and refreshing config file shortcuts
+command Rc e $MYVIMRC
+command Freshrc so $MYVIMRC
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" General remappings >>>>>>>>>
+" Simplifies split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Simplifies buffer navigation
+nnoremap <C-]> :bn<CR>
+nnoremap <C-[> :bp<CR>
+
+" Simplifies exiting terminal mode
+tnoremap <C-\> <C-\><C-N>
+
+" Simplifies insert mode navigation
+inoremap <C-H> <left>
+inoremap <C-J> <down>
+inoremap <C-K> <up>
+inoremap <C-L> <right>
+
+" Makes deletions in insert mode undoable
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" CtrlP >>>>>>>>>>>>>>>>>>>>> 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-set rtp+=/usr/local/opt/fzf
 
-" autocmd BufWritePost *.ts,*.tsx call tslint#run('a', get_winid())
+" Set the directory you started in as the root for ctrlp
+let g:ctrlp_working_path_mode = 0
+
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
 	\ 'dir':  '\v[\/](node_modules|build|.git)$',
 	\ }
+
+" Overrides fzf's Files command with ctrlp
 command! Files CtrlP
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+" Fzf >>>>>>>>>>>>>>>>>>> 
+set rtp+=/usr/local/opt/fzf
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" Coc >>>>>>>>>>>>>>>>>>>>>>>> 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-" Use K for show documentation in preview window
+" Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
@@ -38,33 +82,10 @@ nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 nmap <silent> gy <Plug>(coc-type-definition)
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-"let g:tsuquyomi_definition_split = 3
-"filetype plugin on
-"set omnifunc=syntaxcomplete#Complete
 
-"augroup tslint
-"  function! s:typescript_after(ch, msg)
-"   let cnt = len(getqflist())
-"    if cnt > 0
-"      echomsg printf('[Tslint] %s errors', cnt)
-"    endif
-"  endfunction
-"  let g:tslint_callbacks = {
-"    \ 'after_run': function('s:typescript_after')
-"    \ }
-"
-"  let g:tsuquyomi_disable_quickfix = 1
-"  function! s:ts_quickfix()
-"    let winid = win_getid()
-"    execute ':TsuquyomiGeterr'
-"    call tslint#run('a', winid)
-"  endfunction
-"
-"  autocmd BufWritePost *.ts,*.tsx silent! call s:ts_quickfix()
-"  autocmd InsertLeave *.ts,*.tsx silent! call s:ts_quickfix()
-"augroup END
-
+" NERDComment >>>>>>>>>>>>>>>>
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
@@ -76,37 +97,19 @@ let g:NERDCommentEmptyLines = 1
 
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
+" Airline >>>>>>>>>>>>>>>>>>
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-" Set the directory you started in as the root for ctrlp
-let g:ctrlp_working_path_mode = 0
 
-command Rc e $MYVIMRC
-command Freshrc so $MYVIMRC
-
-" Simplifies split navigation
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-nnoremap <C-]> :bn<CR>
-nnoremap <C-[> :bp<CR>
-
-tnoremap <C-\> <C-\><C-N>
-
-inoremap <C-H> <left>
-inoremap <C-J> <down>
-inoremap <C-K> <up>
-inoremap <C-L> <right>
-inoremap <c-u> <c-g>u<c-u>
-inoremap <c-w> <c-g>u<c-w>
-
+" Plugins >>>>>>>>>>>>>>>>>
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdcommenter'
 Plug 'francoiscabrol/ranger.vim'
@@ -117,12 +120,10 @@ Plug 'pangloss/vim-javascript'
 Plug 'jason0x43/vim-js-indent'
 Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
-" Plug 'heavenshell/vim-tslint'
 Plug 'w0rp/ale'
-" Plug 'Quramy/tsuquyomi'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'vim-airline/vim-airline'
 Plug 'simeji/winresizer'
 call plug#end()
-
+" <<<<<<<<<<<<<<<<<<<<<<<<
