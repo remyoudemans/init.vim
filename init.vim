@@ -6,9 +6,6 @@ set expandtab
 set shiftwidth=2
 set hidden
 
-" Stops netrw tree from opening
-let loaded_netrwPlugin = 1
-
 "Editing and refreshing config file shortcuts
 command Rc e $MYVIMRC
 command Freshrc so $MYVIMRC
@@ -111,19 +108,22 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Plugins >>>>>>>>>>>>>>>>>
 call plug#begin('~/.vim/plugged')
+" General-purpose plugins
 Plug 'scrooloose/nerdcommenter'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'w0rp/ale'
+Plug 'simeji/winresizer'
+
+" Language-specific plugins
 Plug 'pangloss/vim-javascript'
 Plug 'jason0x43/vim-js-indent'
 Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
-Plug 'w0rp/ale'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'vim-airline/vim-airline'
-Plug 'simeji/winresizer'
 call plug#end()
 " <<<<<<<<<<<<<<<<<<<<<<<<
