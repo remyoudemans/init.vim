@@ -3,7 +3,6 @@ colorscheme PaperColor
 set number
 set expandtab
 set shiftwidth=2
-let g:gitgutter_grep=''
 autocmd StdinReadPre * let s:std_in=1
 
 set statusline+=%#warningmsg#
@@ -20,6 +19,9 @@ let g:ctrlp_custom_ignore = {
 command! Files CtrlP
 
 
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -30,6 +32,10 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 nmap <silent> gy <Plug>(coc-type-definition)
 
@@ -81,6 +87,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:ctrlp_working_path_mode = 0
 
 command Rc e $MYVIMRC
+command Freshrc so $MYVIMRC
 
 " Simplifies split navigation
 nnoremap <C-J> <C-W><C-J>
@@ -117,6 +124,5 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'vim-airline/vim-airline'
 Plug 'simeji/winresizer'
-Plug 'airblade/vim-gitgutter'
 call plug#end()
 
