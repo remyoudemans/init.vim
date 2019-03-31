@@ -7,6 +7,8 @@ set expandtab
 set shiftwidth=2
 set hidden
 
+let g:ranger_replace_netrw = 1 " open ranger when vim open a directory
+
 "Editing and refreshing config file shortcuts
 command Rc e $MYVIMRC
 command Freshrc so $MYVIMRC
@@ -32,26 +34,18 @@ inoremap <C-L> <right>
 " Makes deletions in insert mode undoable
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
-" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-" CtrlP >>>>>>>>>>>>>>>>>>>>> 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-" Set the directory you started in as the root for ctrlp
-let g:ctrlp_working_path_mode = 0
-
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v[\/](node_modules|build|.git)$',
-	\ }
-
-" Overrides fzf's Files command with ctrlp
-command! Files CtrlP
+" Adds BufOnly (close all but current buffer)
+command! BufOnly silent! execute "%bd|e#|bd#"
+nnoremap <C-B> :BufOnly<CR>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 " Fzf >>>>>>>>>>>>>>>>>>> 
 set rtp+=/usr/local/opt/fzf
+
+" Makes ctrlp an alias for :Files
+nnoremap <C-P> :Files<CR>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -95,6 +89,7 @@ let g:racer_cmd = "/Users/remyoudemans/.cargo/bin/racer"
 call plug#begin('~/.vim/plugged')
 " General-purpose plugins
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
