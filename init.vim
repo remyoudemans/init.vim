@@ -35,6 +35,10 @@ inoremap <C-L> <right>
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
 
+" Simplifies macros
+nnoremap <space> @q
+vnoremap <space> :normal @q<CR>
+
 " Adds BufOnly (close all but current buffer)
 command! BufOnly silent! execute "%bd|e#|bd#"
 nnoremap <C-B> :BufOnly<CR>
@@ -67,7 +71,8 @@ endfunction
 " Use `[c` and `]c` for navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
+nmap <silent> gt <Plug>(coc-definition)
+nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gy <Plug>(coc-type-definition)
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -96,9 +101,23 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+" Better comments >>>>>>>>>>>>>
+let g:bettercomments_language_aliases = { 'javascript': 'js' }
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" Ale >>>>>>>>>>>>>>>
+nmap <silent> ]w <Plug>(ale_next_wrap)
+nmap <silent> [w <Plug>(ale_previous_wrap)
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 " Plugins >>>>>>>>>>>>>>>>>
 call plug#begin('~/.vim/plugged')
 " General-purpose plugins
+Plug 'vim-scripts/ReplaceWithRegister'
+" sort-motion ?
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -111,6 +130,7 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'simeji/winresizer'
+Plug 'jbgutierrez/vim-better-comments'
 " Language-specific plugins
 Plug 'pangloss/vim-javascript'
 Plug 'jason0x43/vim-js-indent'
@@ -119,5 +139,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'vim-airline/vim-airline'
+Plug 'ianks/vim-tsx'
 call plug#end()
 " <<<<<<<<<<<<<<<<<<<<<<<<
