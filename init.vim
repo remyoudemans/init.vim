@@ -6,7 +6,7 @@ colorscheme PaperColor
 set expandtab
 set shiftwidth=2
 set hidden
-
+set shell=/bin/zsh
 let g:ranger_replace_netrw = 1 " open ranger when vim open a directory
 
 "Editing and refreshing config file shortcuts
