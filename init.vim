@@ -22,6 +22,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+
 " Simplifies exiting terminal mode
 tnoremap <C-\> <C-\><C-N>
 
@@ -44,8 +45,13 @@ vnoremap <space> :normal @q<CR>
 
 " Adds BufOnly (close all but current buffer)
 command! BufOnly silent! execute "%bd|e#|bd#"
-nnoremap <C-B> :BufOnly<CR>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" Custom javascript commands >>>>>>>>>>>>
+" Append a comma and open a new line (useful for adding to objects)
+nnoremap to A,o
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 " Fzf >>>>>>>>>>>>>>>>>>> 
@@ -53,6 +59,9 @@ set rtp+=/usr/local/opt/fzf
 
 " Makes ctrlp an alias for :Files
 nnoremap <C-P> :Files<CR>
+
+" Makes ctrlb an alias for :Buffers
+nnoremap <C-B> :Buffers<CR>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
