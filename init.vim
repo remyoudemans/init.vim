@@ -35,6 +35,9 @@ inoremap <C-L> <right>
 inoremap <c-u> <c-g>u<c-u>
 inoremap <c-w> <c-g>u<c-w>
 
+" Enhances repeatability in visual mode
+vnoremap . :normal .<CR>
+
 " Simplifies macros
 nnoremap <space> @q
 vnoremap <space> :normal @q<CR>
