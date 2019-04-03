@@ -53,19 +53,26 @@ command! BufOnly silent! execute "%bd|e#|bd#"
 " Append a comma and open a new line (useful for adding to objects)
 nnoremap to A,
 
-" Jest :JOnly or <leader>jo make current line's it an it.only 
+" Jest :JOnly or <leader>jo toggles whether current line's it is an it.only 
+"   and removes other it.only if there's already one in the buffer
 function! Onlify()
   let l:initialCursorPos = getcurpos()
   let l:lineno = line(".")
-  call cursor(0, 0)
-  let l:itOnlyPos = search('it.only', "c")
+  call cursor(l:lineno, 0)
 
-  if itOnlyPos != 0
-    %s/it.only(/it(/ 
+  if search('it.only(', "c", l:lineno) != 0
+    s/it.only(/it(/
+  else
+    call cursor(0, 0)
+    let l:itOnlyPos = search('it.only', "c")
+
+    if itOnlyPos != 0
+      %s/it.only(/it(/ 
+    endif
+
+    execute l:lineno
+    s/it(/it.only(/
   endif
-
-  execute l:lineno
-  s/it(/it.only(/
   call setpos('.', l:initialCursorPos)
 endfunction
 
