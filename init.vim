@@ -75,9 +75,23 @@ function! Onlify()
   endif
   call setpos('.', l:initialCursorPos)
 endfunction
-
-command! JOnly call Onlify()
 nnoremap <silent> <leader>jo :call Onlify()<CR>
+
+function! JestIt(...)
+  let l:doneOrEmpty = a:0 == 1 && a:1 == 'd' ? 'done' : ''
+
+  execute "normal! iit('should ', (" . l:doneOrEmpty . ") => {\<Esc>o})\<Esc>=kf l"
+  execute ":startinsert"
+endfunction
+nnoremap <leader>jit :call JestIt()<CR>
+nnoremap <leader>jid :call JestIt('d')<CR>
+
+function! JestMock()
+  execute "normal! 0"
+  let l:quoteType = search("'", '', line(".")) == 0 ? '"' : "'"
+  execute "normal! 0f" . l:quoteType . "yi" . l:quoteType . "ojest.mock(" . l:quoteType . "\<C-O>p" . l:quoteType . ")\<Esc>"
+endfunction
+nnoremap <leader>jm :call JestMock()<CR>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
