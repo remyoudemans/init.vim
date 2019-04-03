@@ -7,6 +7,7 @@ set expandtab
 set shiftwidth=2
 set hidden
 set shell=/bin/zsh
+set autochdir
 let g:ranger_replace_netrw = 1 " open ranger when vim open a directory
 
 "Editing and refreshing config file shortcuts
@@ -50,7 +51,26 @@ command! BufOnly silent! execute "%bd|e#|bd#"
 
 " Custom javascript commands >>>>>>>>>>>>
 " Append a comma and open a new line (useful for adding to objects)
-nnoremap to A,o
+nnoremap to A,
+
+" Jest :JOnly or <leader>jo make current line's it an it.only 
+function! Onlify()
+  let l:initialCursorPos = getcurpos()
+  let l:lineno = line(".")
+  call cursor(0, 0)
+  let l:itOnlyPos = search('it.only', "c")
+
+  if itOnlyPos != 0
+    %s/it.only(/it(/ 
+  endif
+
+  execute l:lineno
+  s/it(/it.only(/
+  call setpos('.', l:initialCursorPos)
+endfunction
+
+command! JOnly call Onlify()
+nnoremap <silent> <leader>jo :call Onlify()<CR>
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
