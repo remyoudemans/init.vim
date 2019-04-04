@@ -5,9 +5,10 @@ set relativenumber
 colorscheme PaperColor 
 set expandtab
 set shiftwidth=2
+set autochdir
 set hidden
 set shell=/bin/zsh
-set autochdir
+set splitbelow
 let g:ranger_replace_netrw = 1 " open ranger when vim open a directory
 
 "Editing and refreshing config file shortcuts
@@ -58,24 +59,52 @@ nnoremap to A,
 function! Onlify()
   let l:initialCursorPos = getcurpos()
   let l:lineno = line(".")
-  call cursor(l:lineno, 0)
 
-  if search('it.only(', "c", l:lineno) != 0
-    s/it.only(/it(/
-  else
+  call cursor(l:lineno, "$") 
+  call search('\(it(\|it.only(\)', "b")
+
+  if search('it.only(', "cn", l:lineno) == 0
+    let l:relevantLineno = line(".")
     call cursor(0, 0)
-    let l:itOnlyPos = search('it.only', "c")
-
-    if itOnlyPos != 0
-      %s/it.only(/it(/ 
+    if search('it.only(', "c") != 0
+      %s/it.only(/it(/
     endif
-
-    execute l:lineno
+    call cursor(l:relevantLineno, "$")
     s/it(/it.only(/
+  else
+    s/it.only(/it(/
   endif
+  execute l:lineno
   call setpos('.', l:initialCursorPos)
 endfunction
-nnoremap <silent> <leader>jo :call Onlify()<CR>
+nnoremap <silent> <leader>joo :call Onlify()<CR>
+
+" Toggles whether block is an it.only but doesn't affect other assertions
+function! ToggleOnly()
+  let l:initialCursorPos = getcurpos()
+  let l:lineno = line(".")
+
+  call cursor(l:lineno, "$") 
+  call search('\(it(\|it.only(\)', "b")
+
+  if search('it.only(', "cn", l:lineno) == 0
+    s/it(/it.only(/
+  else
+    s/it.only(/it(/
+  endif
+  execute l:lineno
+  call setpos('.', l:initialCursorPos)
+endfunction
+nnoremap <silent> <leader>jto :call ToggleOnly()<CR>
+
+function! RemoveOnly()
+  let l:initialCursorPos = getcurpos()
+  let l:lineno = line(".")
+  %s/it.only(/it(/
+  execute l:lineno
+  call setpos('.', l:initialCursorPos)
+endfunction
+nnoremap <silent> <leader>jro :call RemoveOnly()<CR>
 
 function! JestIt(...)
   let l:doneOrEmpty = a:0 == 1 && a:1 == 'd' ? 'done' : ''
@@ -98,8 +127,14 @@ nnoremap <leader>jm :call JestMock()<CR>
 " Fzf >>>>>>>>>>>>>>>>>>> 
 set rtp+=/usr/local/opt/fzf
 
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+command! ProjectFiles execute 'Files' s:find_git_root()
+
 " Makes ctrlp an alias for :Files
-nnoremap <C-P> :Files<CR>
+nnoremap <C-P> :ProjectFiles<CR>
 
 " Makes ctrlb an alias for :Buffers
 nnoremap <C-B> :Buffers<CR>
@@ -114,6 +149,7 @@ nmap <leader>rn <Plug>(coc-rename)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
+
   if &filetype == 'vim'
     execute 'h '.expand('<cword>')
   else
@@ -184,6 +220,7 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'simeji/winresizer'
 Plug 'jbgutierrez/vim-better-comments'
+Plug 'tpope/vim-endwise'
 " Language-specific plugins
 Plug 'pangloss/vim-javascript'
 Plug 'jason0x43/vim-js-indent'
