@@ -1,4 +1,5 @@
 {
-	"suggest.noselect": false,
-	"javascript.suggest.completeFunctionCalls": true
+	"suggest.noselect": true,
+	"javascript.suggest.completeFunctionCalls": true,
+        "typescript.preferences.importModuleSpecifier": "relative"
 }

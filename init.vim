@@ -11,9 +11,10 @@ set shell=/bin/zsh
 set splitbelow
 let g:ranger_replace_netrw = 1 " open ranger when vim open a directory
 
+
 "Editing and refreshing config file shortcuts
-command Rc e $MYVIMRC
-command Freshrc so $MYVIMRC
+" command Rc e $MYVIMRC
+" command Freshrc so $MYVIMRC
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -33,6 +34,17 @@ inoremap <C-H> <left>
 inoremap <C-J> <down>
 inoremap <C-K> <up>
 inoremap <C-L> <right>
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>^
+
+" " Automatically closes brackets/parentheses/quotes in insert mode
+" inoremap ( ()<left>
+" inoremap () ()
+" inoremap [ []<left>
+" inoremap [] []
+" inoremap { {}<left>
+" inoremap {} {}
+" inoremap {<CR> {<CR>}<ESC>O
 
 " Makes deletions in insert mode undoable
 inoremap <c-u> <c-g>u<c-u>
@@ -41,9 +53,7 @@ inoremap <c-w> <c-g>u<c-w>
 " Enhances repeatability in visual mode
 vnoremap . :normal .<CR>
 
-" Simplifies macros
-nnoremap <space> @q
-vnoremap <space> :normal @q<CR>
+nnoremap <space> l
 
 " Adds BufOnly (close all but current buffer)
 command! BufOnly silent! execute "%bd|e#|bd#"
@@ -64,6 +74,17 @@ function! s:find_git_root()
 endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
+
+command! -bang -nargs=+ -complete=dir AgRaw call fzf#vim#ag_raw(<q-args>, <bang>0)
+
+function! Rag(...)
+  echom "AgRaw " . a:1 . ' ' . s:find_git_root()
+  execute "AgRaw " . a:1 . ' ' . s:find_git_root()
+endfunction
+
+" Searches from the git root (much more useful than searching from the current
+" buffer's directory
+command! -nargs=+ Rag call Rag(<q-args>)
 
 " Makes ctrlp an alias for :Files
 nnoremap <C-P> :ProjectFiles<CR>
@@ -95,6 +116,7 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
 nmap <silent> gt <Plug>(coc-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> ga <Plug>(coc-references)
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
@@ -153,10 +175,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'simeji/winresizer'
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'tpope/vim-endwise'
+Plug 'townk/vim-autoclose'
+" Plug 'sheerun/vim-polyglot' !! tsx syntax highlighting breaks with this on.
 " Language-specific plugins
-Plug 'pangloss/vim-javascript'
-Plug 'jason0x43/vim-js-indent'
 Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
