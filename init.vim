@@ -1,15 +1,42 @@
-" Top-level setup >>>>>>>>>>>>>>
+ " Top-level setup >>>>>>>>>>>>>>
 syntax on
 set number
 set relativenumber
+
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#ffffff' gui=underline ctermfg=255 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
+nmap <leader>q <plug>(QuickScopeToggle)
+
 colorscheme PaperColor 
 set expandtab
-set shiftwidth=2
+
+" for front end work
+set shiftwidth=4
+set tabstop=4
+
+" for back end work
+" set shiftwidth=2
+" set tabstop=2
+
+nnoremap j gj
+nnoremap k gk
+
 set autochdir
 set hidden
 set shell=/bin/zsh
 set splitbelow
 let g:ranger_replace_netrw = 1 " open ranger when vim open a directory
+
+" Enable live substitution
+if has('nvim')
+  set inccommand=nosplit
+endif
+
+au BufReadPost *.svelte set syntax=html 
 
 
 "Editing and refreshing config file shortcuts
@@ -24,6 +51,14 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Simplifies repetition
+nnoremap <leader>n n.
+nnoremap <leader>N N.
+
+" Simplifies command mode navigation
+cnoremap <C-L> <right>
+cnoremap <C-H> <left>
 
 
 " Simplifies exiting terminal mode
@@ -53,7 +88,8 @@ inoremap <c-w> <c-g>u<c-w>
 " Enhances repeatability in visual mode
 vnoremap . :normal .<CR>
 
-nnoremap <space> l
+" nnoremap <space> l
+nnoremap <Space> i<Space><Right><ESC>
 
 " Adds BufOnly (close all but current buffer)
 command! BufOnly silent! execute "%bd|e#|bd#"
@@ -82,9 +118,26 @@ function! Rag(...)
   execute "AgRaw " . a:1 . ' ' . s:find_git_root()
 endfunction
 
+
+function! Rack(...)
+    echom "Ack " . a:1 . ' ' . s:find_git_root()
+    execute "Ack " . a:1 . ' ' . s:find_git_root()
+endfunction
+
+function! CRack()
+    echom "Ack " . expand("<cword>") ' ' . s:find_git_root()
+    execute "Ack " . expand("<cword>") ' ' . s:find_git_root()
+endfunction
+
 " Searches from the git root (much more useful than searching from the current
 " buffer's directory
 command! -nargs=+ Rag call Rag(<q-args>)
+
+command! -nargs=+ Rack call Rack(<q-args>)
+
+command! CRack call CRack()
+
+nnoremap <leader>ss :CRack<CR>
 
 " Makes ctrlp an alias for :Files
 nnoremap <C-P> :ProjectFiles<CR>
@@ -97,6 +150,11 @@ nnoremap <C-B> :Buffers<CR>
 " Coc >>>>>>>>>>>>>>>>>>>>>>>> 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
+
+
+" Fugitive >>>>>>>>>>>>>>>>>>
+" remap for git status
+nmap <leader>gs :Gst<CR>
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -175,7 +233,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'simeji/winresizer'
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'tpope/vim-endwise'
-Plug 'townk/vim-autoclose'
+Plug 'robbles/logstash.vim'
+" Plug 'townk/vim-autoclose'
+Plug 'unblevable/quick-scope'
+Plug 'Raimondi/delimitMate'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'jparise/vim-graphql'
+Plug 'wincent/ferret'
+Plug 'junegunn/gv.vim'
 " Plug 'sheerun/vim-polyglot' !! tsx syntax highlighting breaks with this on.
 " Language-specific plugins
 Plug 'mxw/vim-jsx'
