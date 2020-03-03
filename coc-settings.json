@@ -1,6 +1,6 @@
 {
 	"suggest.noselect": true,
-    "solargraph.diagnostics": true,
+  "solargraph.diagnostics": true,
 	"javascript.suggest.completeFunctionCalls": true,
-        "typescript.preferences.importModuleSpecifier": "relative"
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

@@ -2,6 +2,7 @@
 syntax on
 set number
 set relativenumber
+set termguicolors
 
 augroup qs_colors
   autocmd!
@@ -11,16 +12,19 @@ augroup END
 
 nmap <leader>q <plug>(QuickScopeToggle)
 
-colorscheme PaperColor 
 set expandtab
 
-" for front end work
-set shiftwidth=4
-set tabstop=4
-
 " for back end work
-" set shiftwidth=2
-" set tabstop=2
+set shiftwidth=2
+set tabstop=2
+
+au BufRead,BufNewFile,BufEnter /home/remyoudemans/Documents/digib/digib-imp-front-end/* setlocal ts=4 sw=4
+au BufRead,BufNewFile,BufEnter /home/remyoudemans/Documents/digib/recommendation-engine/front-end/* setlocal ts=4 sw=4
+
+
+" for front end work
+" set shiftwidth=4
+" set tabstop=4
 
 nnoremap j gj
 nnoremap k gk
@@ -99,11 +103,13 @@ command! BufOnly silent! execute "%bd|e#|bd#"
 " Custom javascript commands >>>>>>>>>>>>
 " Append a comma and open a new line (useful for adding to objects)
 nnoremap to A,
+"  shortcut for making todos
+nnoremap <leader>td A // TODO:
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 " Fzf >>>>>>>>>>>>>>>>>>> 
-set rtp+=/usr/local/opt/fzf
+" set rtp+=/usr/bin/fzf
 
 function! s:find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
@@ -129,6 +135,14 @@ function! CRack()
     execute "Ack " . expand("<cword>") ' ' . s:find_git_root()
 endfunction
 
+
+function! Env()
+  echom "e " . s:find_git_root() . '.env'
+  execute "e " . s:find_git_root() . '/.env'
+endfunction
+
+command! Env call Env()
+
 " Searches from the git root (much more useful than searching from the current
 " buffer's directory
 command! -nargs=+ Rag call Rag(<q-args>)
@@ -138,6 +152,10 @@ command! -nargs=+ Rack call Rack(<q-args>)
 command! CRack call CRack()
 
 nnoremap <leader>ss :CRack<CR>
+
+
+" makes <leader>fi fix-up imports (space them correctly and remove semicolons, then write)
+nnoremap <leader>fi :%s/import {\([^ ]\+\)}/import { \1 }/ <bar> %s/;//g <bar> w <CR>
 
 " Makes ctrlp an alias for :Files
 nnoremap <C-P> :ProjectFiles<CR>
@@ -151,16 +169,10 @@ nnoremap <C-B> :Buffers<CR>
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-
-" Fugitive >>>>>>>>>>>>>>>>>>
-" remap for git status
-nmap <leader>gs :Gst<CR>
-
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-
   if &filetype == 'vim'
     execute 'h '.expand('<cword>')
   else
@@ -172,10 +184,21 @@ endfunction
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 nmap <silent> gt <Plug>(coc-definition)
+nmap <silent> gvt :vs <CR><C-l>gt
+nmap <silent> ght :sp <CR>gt
 nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gvi :vs <CR><C-l>gi
+nmap <silent> ghi :sp <CR>gi
 nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gvy :vs <CR><C-l>gy
+nmap <silent> ghy :sp <CR>gy
 nmap <silent> ga <Plug>(coc-references)
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+" Fugitive >>>>>>>>>>>>>>>>>>
+" remap for git status
+nmap <leader>gs :Gst<CR>
 
 
 " NERDComment >>>>>>>>>>>>>>>>
@@ -229,11 +252,13 @@ Plug 'tpope/vim-repeat'
 Plug 'w0rp/ale'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'simeji/winresizer'
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'tpope/vim-endwise'
 Plug 'robbles/logstash.vim'
+Plug 'ayu-theme/ayu-vim'
 " Plug 'townk/vim-autoclose'
 Plug 'unblevable/quick-scope'
 Plug 'Raimondi/delimitMate'
@@ -253,3 +278,10 @@ Plug 'remyoudemans/vim-jesture'
 Plug 'ianks/vim-tsx'
 call plug#end()
 " <<<<<<<<<<<<<<<<<<<<<<<<
+
+" colorscheme PaperColor 
+" let ayucolor = "light"
+let ayucolor = "mirage"
+" let ayucolor = "dark"
+colorscheme ayu
+
