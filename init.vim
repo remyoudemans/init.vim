@@ -42,8 +42,6 @@ if has('nvim')
   set inccommand=nosplit
 endif
 
-au BufReadPost *.svelte set syntax=html 
-
 
 "Editing and refreshing config file shortcuts
 " command Rc e $MYVIMRC
@@ -253,7 +251,7 @@ let g:ale_linters = {'jsx': ['stylelint', 'eslint'], 'ts': ['stylelint', 'eslint
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 " Prettier >>>>>>>>>>>>>>>>>>>
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.svelte,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 " Ultisnsips Trigger configuration (Optional)
@@ -315,6 +313,7 @@ Plug 'remyoudemans/vim-jesture'
 Plug 'ianks/vim-tsx'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'burner/vim-svelte'
 " ES2015 code snippets (Optional)
 Plug 'epilande/vim-es2015-snippets'
 
